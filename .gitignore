@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+# Matlab specific
+*.asv
+*.m~
+*.mex*
+slprj/
