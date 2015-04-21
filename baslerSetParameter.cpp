@@ -15,7 +15,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         mexErrMsgIdAndTxt( "baslerDriver:Error:ArgumentError",
                 "Not enough arguments. Use help baslerSetParameter for further information."); 
     }
-    else if(nrhs > 3)
+    else if(nrhs > 4)
     {
         mexErrMsgIdAndTxt( "baslerDriver:Error:ArgumentError",
                 "Too many arguments. Use help baslerSetParameter for further information."); 
@@ -23,6 +23,13 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     
     const int i_cam_number = (int)mxGetScalar(prhs[0]);
 	const std::string s_param_name(mxArrayToString(prhs[1]));
+    bool b_verbose = 0;
+    
+    if(nrhs == 4)
+    {
+        b_verbose = (int)mxGetScalar(prhs[3]) != 0;
+
+    }
     
 	// Initiatlize Pylon
 	Pylon::PylonAutoInitTerm auto_init_term;
@@ -51,6 +58,10 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         
         // Open Camera
 		camera.Open();
+        if(b_verbose)
+        {
+            mexPrintf("Using camera \"%s\"\n", camera.GetDeviceInfo().GetModelName().c_str());
+        }
         
         // Find type of parameter
         if(mxIsNumeric(prhs[2]))                        // Numeric values
@@ -59,26 +70,26 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
             {
                 const double d_param_value = (const double)mxGetScalar(prhs[2]);
                 BaslerHelper::set_parameter(&camera, 
-                        s_param_name.c_str(), &d_param_value , true);
+                        s_param_name.c_str(), &d_param_value , b_verbose);
             }
             else                                            // Integers
             {
                 const int i_param_value = (const int)mxGetScalar(prhs[2]);
                 BaslerHelper::set_parameter(&camera, 
-                        s_param_name.c_str(), &i_param_value , true);
+                        s_param_name.c_str(), &i_param_value , b_verbose);
             }
         }
         else if(mxIsLogical(prhs[2]))                   // Boolean
         {
             const bool b_param_value = (const bool)mxGetLogicals(prhs[2]);
             BaslerHelper::set_parameter(&camera, 
-                    s_param_name.c_str(), &b_param_value , true);
+                    s_param_name.c_str(), &b_param_value , b_verbose);
         }
         else if(mxIsChar(prhs[2]))                      // Strings
         {
             const char* s_param_value = mxArrayToString(prhs[2]);
             BaslerHelper::set_parameter(&camera, 
-                    s_param_name.c_str(), s_param_value , true);
+                    s_param_name.c_str(), s_param_value , b_verbose);
 
         }
         else                                            // else: fail!
