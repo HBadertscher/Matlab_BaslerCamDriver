@@ -4,5 +4,5 @@
 %  (second column) of all found Basler cameras. 
 %
 %  Usage:
-%  available_cams = find_cameras();
+%  available_cams = baslerFindCameras();
 %
