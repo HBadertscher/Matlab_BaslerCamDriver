@@ -12,10 +12,10 @@
 %  internal information to the workspace.
 %
 %  Usage:
-%    baslerSetParameter(cameraIndex, parameterName, parameterType)
-%    baslerSetParameter(cameraIndex, parameterName, parameterType, verbose)
+%    baslerGetParameter(cameraIndex, parameterName, parameterType)
+%    baslerGetParameter(cameraIndex, parameterName, parameterType, verbose)
 %
 %  Examples:
-%    baslerSetParameter(0,'Width','Int');
-%    baslerSetParameter(0,'Width','Int', 1);
+%    baslerGetParameter(0,'Width','Int');
+%    baslerGetParameter(0,'Width','Int', 1);
 %
