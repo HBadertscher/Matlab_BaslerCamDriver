@@ -40,7 +40,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	catch (GenICam::GenericException &e)
 	{
 		// Error handling.
-        mexErrMsgIdAndTxt("aca_driver:Error:CameraError",e.GetDescription());
+        mexErrMsgIdAndTxt("baslerDriver:Error:CameraError",e.GetDescription());
 	}
     
 	return;
