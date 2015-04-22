@@ -88,6 +88,15 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
                     catch(GenICam::GenericException &e)
                     {
 
+                        try 
+                        {
+                            GenApi::CPointer<GenApi::IEnumeration> p_cur_node = camera.GetNodeMap().GetNode((*it)->GetName());
+                            mxSetCell(plhs[0],i+nl_nodes.size(),mxCreateString(p_cur_node->ToString()));
+                        }
+                        catch(GenICam::GenericException &e)
+                        {
+
+                        }
                     }
                 }
             }
