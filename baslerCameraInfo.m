@@ -1,7 +1,7 @@
-function cameraCell = baslerCameraInfo(cameraIndex, visibility)
+function cameraStruct = baslerCameraInfo(cameraIndex, visibility)
 % baslerCameraInfo.m - Get all info on the selected Basler camera
 %
-%  Returns a cell containing all relevant information on the selected
+%  Returns a struct containing all relevant information on the selected
 %  Basler camera. The visibility parameter specifies which camera
 %  information is displayed.
 %  Possible values are:
@@ -10,7 +10,7 @@ function cameraCell = baslerCameraInfo(cameraIndex, visibility)
 %    - 2: Guru
 %
 %  Usage:
-%  cameraCell = baslerCameraInfo(cameraIndex, visibility);
+%  cameraStruct = baslerCameraInfo(cameraIndex, visibility);
 %
 
 cameraCell = baslerGetRawCameraParams(cameraIndex);
@@ -42,5 +42,6 @@ cameraCell = cameraCell(~nVisRows,:);
 
 % Remove visibility
 cameraCell = cameraCell(:,1:2);
+cameraStruct = cell2struct(cameraCell(:,2),cameraCell(:,1),1);
 
 end
