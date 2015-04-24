@@ -3,6 +3,7 @@
 
 #include <pylon/PylonIncludes.h>
 #include "basler_helper/basler_set_get.h"
+#include "basler_helper/capture_images.h"
 
 #include <matrix.h>
 #include <mex.h>
@@ -88,43 +89,33 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         std::string s_pixel_type = BaslerHelper::get_string(&camera,"PixelFormat",b_verbose);
         Pylon::EPixelType ept_pixel_type = Pylon::CPixelTypeMapper().GetPylonPixelTypeByName(s_pixel_type.c_str());
 
-        // Allocate output array
+        // Get dimensions of output array
         const size_t i_dimensions[] = { i_height, 
                                         i_width,
                                         Pylon::SamplesPerPixel(ept_pixel_type), 
                                         i_num_of_frames};
-        // TODO: Remove uint8_t
-        mxArray* mxa_output = mxCreateNumericArray(4, i_dimensions, mxUINT8_CLASS, mxREAL);
-
-        
-        // Start capturing
-		camera.StartGrabbing(i_num_of_frames, Pylon::GrabStrategy_OneByOne);
-
-        Pylon::CGrabResultPtr p_grab_result;
-
-        // Get results
-        for(int i_cur_frame=0; i_cur_frame<i_num_of_frames; i_cur_frame++)
+                                        
+        // Create output array and create pointer
+        mxArray* mxa_output;
+        if(Pylon::BitDepth(ept_pixel_type) <= 8)
         {
-            camera.RetrieveResult(5000, p_grab_result, Pylon::TimeoutHandling_ThrowException);
-            if (p_grab_result->GrabSucceeded())
-            {   
-                // TODO: remove uint8_t
-                uint8_t* p_image_buffer = (uint8_t*) p_grab_result->GetBuffer();
-                 
-                uint8_t* p_output = (uint8_t*)mxGetData(mxa_output);
-                for (unsigned long long i=0; i < i_height; i++)
-                {
-                    for (unsigned long long j=0; j < i_width; j++)
-                    {
-                        p_output[i_cur_frame*i_numel+i+j*i_height] = p_image_buffer[i*i_width+j];
-                    }
-                }
-            }
+            mxa_output = mxCreateNumericArray(4, i_dimensions, mxUINT8_CLASS, mxREAL);
+            BaslerHelper::capture_images<uint8_t>(&camera, i_num_of_frames, mxa_output, b_verbose);
         }
-        
+        else if(Pylon::BitDepth(ept_pixel_type) <= 16)
+        {
+            mxa_output = mxCreateNumericArray(4, i_dimensions, mxUINT16_CLASS, mxREAL);
+            BaslerHelper::capture_images<uint16_t>(&camera, i_num_of_frames, mxa_output, b_verbose);
+        }
+        else
+        {
+           mxa_output = mxCreateNumericArray(4, i_dimensions, mxDOUBLE_CLASS, mxREAL);
+           BaslerHelper::capture_images<double>(&camera, i_num_of_frames, mxa_output, b_verbose);
+        }
+
         // Close camera
 		camera.Close();
-
+        
         // Remove singleton dimensions
         mexCallMATLAB(1,plhs,1,&mxa_output,"squeeze");
     }
