@@ -13,8 +13,8 @@ namespace BaslerHelper {
     void set_parameter( Pylon::CInstantCamera* p_camera, const char* s_param_name, const double* new_value, const bool b_verbose)    {
         GenApi::CPointer<GenApi::IFloat> p_parameter = p_camera->GetNodeMap().GetNode(s_param_name);
         if (IsWritable(p_parameter))
-		{
-			p_parameter->SetValue(*new_value);
+        {
+        p_parameter->SetValue(*new_value);
         }
         else
         {
@@ -28,12 +28,12 @@ namespace BaslerHelper {
     
     //---------------------------------------------------------------------
     // Set int parameter
-	void set_parameter(Pylon::CInstantCamera* p_camera, const char* s_param_name, const int* new_value, const bool b_verbose)
+    void set_parameter(Pylon::CInstantCamera* p_camera, const char* s_param_name, const int* new_value, const bool b_verbose)
     {
         GenApi::CPointer<GenApi::IInteger> p_parameter = p_camera->GetNodeMap().GetNode(s_param_name);
         if (IsWritable(p_parameter))
-		{
-			p_parameter->SetValue(*new_value);
+        {
+            p_parameter->SetValue(*new_value);
         }
         else
         {
@@ -47,12 +47,12 @@ namespace BaslerHelper {
     
     //---------------------------------------------------------------------
     // Set string parameter
-	void set_parameter(Pylon::CInstantCamera* p_camera, const char* s_param_name, const char* new_value, const bool b_verbose)
+    void set_parameter(Pylon::CInstantCamera* p_camera, const char* s_param_name, const char* new_value, const bool b_verbose)
     {
         GenApi::CPointer<GenApi::IEnumeration> p_parameter = p_camera->GetNodeMap().GetNode(s_param_name);
         if (IsWritable(p_parameter))
-		{
-			p_parameter->FromString(new_value);
+        {
+            p_parameter->FromString(new_value);
         }
         else
         {
@@ -66,12 +66,12 @@ namespace BaslerHelper {
     
     //---------------------------------------------------------------------
     // Set bool parameter
-	void set_parameter(Pylon::CInstantCamera* p_camera, const char* s_param_name, const bool* new_value, const bool b_verbose)
+    void set_parameter(Pylon::CInstantCamera* p_camera, const char* s_param_name, const bool* new_value, const bool b_verbose)
     {
         GenApi::CPointer<GenApi::IBoolean> p_parameter = p_camera->GetNodeMap().GetNode(s_param_name);
         if (IsWritable(p_parameter))
-		{
-			p_parameter->SetValue(*new_value);
+        {
+            p_parameter->SetValue(*new_value);
         }
         else
         {

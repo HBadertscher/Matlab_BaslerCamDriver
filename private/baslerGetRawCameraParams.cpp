@@ -22,8 +22,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     }
     const int i_cam_number = (int)mxGetScalar(prhs[0]);    
     
-	// Initiatlize Pylon
-	Pylon::PylonAutoInitTerm auto_init_term;
+    // Initiatlize Pylon
+    Pylon::PylonAutoInitTerm auto_init_term;
     
     try
     {
@@ -44,11 +44,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
             throw RUNTIME_EXCEPTION("No camera with this index exists.");
         }
         
-		// Create camera object
+        // Create camera object
         Pylon::CInstantCamera camera(tlFactory.CreateDevice(devices[i_cam_number]));
         
         // Open Camera
-		camera.Open();
+        camera.Open();
         
         // Find nodes
         GenApi::NodeList_t nl_nodes;
@@ -109,14 +109,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         }
         
         // Close camera
-		camera.Close();
+        camera.Close();
     }
-	catch (GenICam::GenericException &e)
-	{
-		// Error handling.
+    catch (GenICam::GenericException &e)
+    {
+        // Error handling.
         mexErrMsgIdAndTxt("baslerDriver:Error:CameraError",e.GetDescription());
-	}
+    }
     
-	return;
+    return;
 }
 

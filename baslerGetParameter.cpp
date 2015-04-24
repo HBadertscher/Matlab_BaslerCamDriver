@@ -32,7 +32,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     }
     
     const int i_cam_number = (int)mxGetScalar(prhs[0]);
-	const std::string s_param_name(mxArrayToString(prhs[1]));
+    const std::string s_param_name(mxArrayToString(prhs[1]));
     const std::string s_param_type(mxArrayToString(prhs[2]));
     
     // Map string to parameter type
@@ -50,8 +50,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
     }
     
-	// Initiatlize Pylon
-	Pylon::PylonAutoInitTerm auto_init_term;
+    // Initiatlize Pylon
+    Pylon::PylonAutoInitTerm auto_init_term;
     
     try
     {
@@ -72,11 +72,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
             throw RUNTIME_EXCEPTION("No camera with this index exists.");
         }
         
-		// Create camera object
+        // Create camera object
         Pylon::CInstantCamera camera(tlFactory.CreateDevice(devices[i_cam_number]));
         
         // Open Camera
-		camera.Open();
+        camera.Open();
         if(b_verbose)
         {
             mexPrintf("Using camera \"%s\"\n", camera.GetDeviceInfo().GetModelName().c_str());
@@ -124,15 +124,15 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         }
         
         // Close camera
-		camera.Close();
+        camera.Close();
         
     }
-	catch (GenICam::GenericException &e)
-	{
-		// Error handling.
+    catch (GenICam::GenericException &e)
+    {
+        // Error handling.
         mexErrMsgIdAndTxt("baslerDriver:Error:CameraError",e.GetDescription());
-	}
+    }
     
-	return;
+    return;
 }
 

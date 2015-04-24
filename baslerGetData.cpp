@@ -48,8 +48,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         mexPrintf("Capturing %d frame(s) \n",i_num_of_frames);
     }
     
-	// Initiatlize Pylon
-	Pylon::PylonAutoInitTerm auto_init_term;
+    // Initiatlize Pylon
+    Pylon::PylonAutoInitTerm auto_init_term;
     
     try
     {
@@ -70,11 +70,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
             throw RUNTIME_EXCEPTION("No camera with this index exists.");
         }
         
-		// Create camera object
+        // Create camera object
         Pylon::CInstantCamera camera(tlFactory.CreateDevice(devices[i_cam_number]));
         
         // Open Camera
-		camera.Open();
+        camera.Open();
         if(b_verbose)
         {
             mexPrintf("Using camera \"%s\"\n", camera.GetDeviceInfo().GetModelName().c_str());
@@ -114,17 +114,17 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         }
 
         // Close camera
-		camera.Close();
+        camera.Close();
         
         // Remove singleton dimensions
         mexCallMATLAB(1,plhs,1,&mxa_output,"squeeze");
     }
-	catch (GenICam::GenericException &e)
-	{
-		// Error handling.
+    catch (GenICam::GenericException &e)
+    {
+        // Error handling.
         mexErrMsgIdAndTxt("baslerDriver:Error:CameraError",e.GetDescription());
-	}
+    }
     
-	return;
+    return;
 }
 

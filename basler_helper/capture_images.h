@@ -21,7 +21,7 @@ namespace BaslerHelper {
         const unsigned long long i_numel = i_height * i_width;
             
         // Start capturing
-		camera->StartGrabbing(i_num_of_frames, Pylon::GrabStrategy_OneByOne);
+        camera->StartGrabbing(i_num_of_frames, Pylon::GrabStrategy_OneByOne);
         Pylon::CGrabResultPtr p_grab_result;
 
         // Get results

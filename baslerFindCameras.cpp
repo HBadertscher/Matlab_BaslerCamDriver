@@ -9,8 +9,8 @@
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {       
     
-	// Initiatlize Pylon
-	Pylon::PylonAutoInitTerm auto_init_term;
+    // Initiatlize Pylon
+    Pylon::PylonAutoInitTerm auto_init_term;
 
     try
     {
@@ -37,12 +37,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         }
         
     }
-	catch (GenICam::GenericException &e)
-	{
-		// Error handling.
+    catch (GenICam::GenericException &e)
+    {
+        // Error handling.
         mexErrMsgIdAndTxt("baslerDriver:Error:CameraError",e.GetDescription());
-	}
+    }
     
-	return;
+    return;
 }
 
