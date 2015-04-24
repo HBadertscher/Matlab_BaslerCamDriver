@@ -1,8 +1,8 @@
-// basler_helper.cpp - A collection of helper functions for Basler cameras
+// basler_set_get.cpp - A collection of helper functions for Basler cameras
 // 21.04.2015 / HB
 
 
-#include "basler_helper.h"
+#include "basler_set_get.h"
 #include <mex.h>
 #include <pylon/PylonIncludes.h>
 

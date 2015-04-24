@@ -2,7 +2,7 @@
 // see baslerGetData.m for help
 
 #include <pylon/PylonIncludes.h>
-#include "basler_helper/basler_helper.h"
+#include "basler_helper/basler_set_get.h"
 
 #include <matrix.h>
 #include <mex.h>

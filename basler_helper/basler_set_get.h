@@ -1,8 +1,8 @@
-// basler_helper.h - A collection of helper functions for Basler cameras
+// basler_set_get.h - A collection of helper functions for Basler cameras
 // 21.04.2015 / HB
 
-#ifndef __BASLERHELPER_H_INCLUDED__
-#define __BASLERHELPER_H_INCLUDED__
+#ifndef __BASLERSETGET_H_INCLUDED__
+#define __BASLERSETGET_H_INCLUDED__
 
 #include <string>
 #include <pylon/PylonIncludes.h>
