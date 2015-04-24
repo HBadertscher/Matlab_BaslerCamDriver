@@ -79,14 +79,23 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
             mexPrintf("Using camera \"%s\"\n", camera.GetDeviceInfo().GetModelName().c_str());
         }
         
-        // Get width and height and allocate output
+        // Get width and height 
         const unsigned long long i_width = BaslerHelper::get_int(&camera,"Width",b_verbose);
         const unsigned long long i_height = BaslerHelper::get_int(&camera,"Height",b_verbose);
-        
         unsigned long long i_numel = i_height * i_width;
-        const size_t i_dimensions[] = {i_height, i_width, i_num_of_frames};
-        plhs[0] = mxCreateNumericArray(3, i_dimensions, mxUINT8_CLASS, mxREAL);
-        //TODO: THIS ONLY WORKS WITH UINT8 TYPES!!!!
+        
+        // Get Pixel data type
+        std::string s_pixel_type = BaslerHelper::get_string(&camera,"PixelFormat",b_verbose);
+        Pylon::EPixelType ept_pixel_type = Pylon::CPixelTypeMapper().GetPylonPixelTypeByName(s_pixel_type.c_str());
+
+        // Allocate output array
+        const size_t i_dimensions[] = { i_height, 
+                                        i_width,
+                                        Pylon::SamplesPerPixel(ept_pixel_type), 
+                                        i_num_of_frames};
+        // TODO: Remove uint8_t
+        mxArray* mxa_output = mxCreateNumericArray(4, i_dimensions, mxUINT8_CLASS, mxREAL);
+
         
         // Start capturing
 		camera.StartGrabbing(i_num_of_frames, Pylon::GrabStrategy_OneByOne);
@@ -99,9 +108,10 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
             camera.RetrieveResult(5000, p_grab_result, Pylon::TimeoutHandling_ThrowException);
             if (p_grab_result->GrabSucceeded())
             {   
-                const uint8_t* p_image_buffer = (uint8_t*) p_grab_result->GetBuffer();
-
-                uint8_t* p_output = (uint8_t*) mxGetData(plhs[0]);
+                // TODO: remove uint8_t
+                uint8_t* p_image_buffer = (uint8_t*) p_grab_result->GetBuffer();
+                 
+                uint8_t* p_output = (uint8_t*)mxGetData(mxa_output);
                 for (unsigned long long i=0; i < i_height; i++)
                 {
                     for (unsigned long long j=0; j < i_width; j++)
@@ -114,7 +124,9 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         
         // Close camera
 		camera.Close();
-        
+
+        // Remove singleton dimensions
+        mexCallMATLAB(1,plhs,1,&mxa_output,"squeeze");
     }
 	catch (GenICam::GenericException &e)
 	{
