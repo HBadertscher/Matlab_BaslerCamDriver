@@ -64,10 +64,10 @@ switch nargin
         
     case 1 %CLEAN
         if strcmp(varargin{1},'clean')
-            delete('*.pdb','*.mex*','*.obj');
+            delete('*.pdb','*.mex*','*.obj','*.lib','*.exp');
             for k=1:size(libraries,1)
                 cd(libraries{k,1});
-                delete('*.pdb','*.mex*','*.obj');
+                delete('*.pdb','*.mex*','*.obj','*.lib','*.exp');
                 cd('..');
             end
         end
