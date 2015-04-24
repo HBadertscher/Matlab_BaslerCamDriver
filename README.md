@@ -3,7 +3,7 @@ A universal MATLAB driver for Basler cameras
 
 Copyright (c) 2015 Hannes Badertscher
 
-Until now, interfacing cameras in MATLAB is a cumbersome task. 
+Until now, interfacing cameras in MATLAB was a cumbersome task. 
 MATLAB offers no support for USB3 Vision cameras, and the GigE driver is rather buggy.
 This driver package provides an open-source C++ interface between MATLAB and Basler's Pylon interface.
 
@@ -22,8 +22,6 @@ The MATLAB Basler Camera Driver is built by calling the provided `make.m` file.
 * `baslerGetParameter` returns the selected camera parameter.
 * `baslerPreview` displays a preview image.
 * `baslerGetData` captures and returns the selected number of frames.
-* `baslerSaveData` captures the selected number of frames and saves these to disc.
-* `baslerSaveDataThread` capures and saves the selected number of frames without blocking MATLAB.
 
 ## License
 
