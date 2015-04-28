@@ -19,7 +19,12 @@ namespace BaslerHelper {
         const unsigned long long i_width = BaslerHelper::get_int(camera,"Width",b_verbose);
         const unsigned long long i_height = BaslerHelper::get_int(camera,"Height",b_verbose);
         const unsigned long long i_numel = i_height * i_width;
-            
+        
+        // Get Pixel data type
+        std::string s_pixel_type = BaslerHelper::get_string(camera,"PixelFormat",b_verbose);
+        Pylon::EPixelType ept_pixel_type = Pylon::CPixelTypeMapper().GetPylonPixelTypeByName(s_pixel_type.c_str());
+        const unsigned int i_samples_p_pixel = Pylon::SamplesPerPixel(ept_pixel_type);    
+        
         // Start capturing
         camera->StartGrabbing(i_num_of_frames, Pylon::GrabStrategy_OneByOne);
         Pylon::CGrabResultPtr p_grab_result;
@@ -33,12 +38,20 @@ namespace BaslerHelper {
                 T* p_image_buffer = static_cast<T*> (p_grab_result->GetBuffer());
                 T* p_output = static_cast<T*> (mxGetData(mxa_output));
                 
-                // Save pixels to buffer
-                for (unsigned long long i=0; i < i_height; i++)
+                // For all bands
+                for (unsigned int i_c_band = 0; i_c_band < i_samples_p_pixel; i_c_band ++)
                 {
-                    for (unsigned long long j=0; j < i_width; j++)
+                    // Save pixels to buffer
+                    for (unsigned long long i=0; i < i_height; i++)
                     {
-                        p_output[i_cur_frame*i_numel+i+j*i_height] = p_image_buffer[i*i_width+j];
+                        for (unsigned long long j=0; j < i_width; j++)
+                        {
+                            p_output[i_cur_frame * (i_numel * i_samples_p_pixel)  // Which frame
+                                    + i_c_band * i_numel     // Which color band
+                                    +i                      // Which row
+                                    +j*i_height]            // Which colum
+                            = p_image_buffer[i_c_band+i_samples_p_pixel*(i*i_width+j)];
+                        }
                     }
                 }
             }
