@@ -14,6 +14,11 @@ The MATLAB Basler Camera Driver is built by calling the provided `make.m` file.
 ###Requirements:
 * [Boost C++ Libraries](http://www.boost.org/) (+ `BOOST_ROOT` set to the Boost root directory)
 * [Basler Pylon 4](http://www.baslerweb.com/de/produkte/software) 
+* And of course: a Basler Camera. 
+This driver should support any Basler camera, but has only been tested on:
+  - acA1600-20gc - GigE Vision camera
+  - acA2000-165um - USB3.0 Vision camera
+  - raL8192-12gm - GigE Vision line scan camera
 
 ## Functions
 * `baslerFindCameras` returns a cell array containing the camera index and the camera name.
