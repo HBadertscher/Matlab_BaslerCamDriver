@@ -1,7 +1,8 @@
 # Matlab_BaslerCamDriver
 A universal MATLAB driver for Basler cameras
 
-Copyright (c) 2015 Hannes Badertscher
+Copyright (c) 2015 Hannes Badertscher, ICOM Institute for Communication Systems
+at HSR University of Applied Sciences of Eastern Switzerland - [icom.hsr.ch](http://www.icom.hsr.ch)
 
 Until now, interfacing cameras in MATLAB was a cumbersome task. 
 MATLAB offers no support for USB3 Vision cameras, and the GigE driver is rather buggy.
@@ -32,7 +33,8 @@ This driver should support any Basler camera, but has only been tested on:
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Hannes Badertscher
+Copyright (c) 2015 Hannes Badertscher and ICOM Institute for Communication Systems
+at HSR University of Applied Sciences of Eastern Switzerland - [icom.hsr.ch](http://www.icom.hsr.ch)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
