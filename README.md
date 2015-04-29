@@ -8,6 +8,9 @@ Until now, interfacing cameras in MATLAB was a cumbersome task.
 MATLAB offers no support for USB3 Vision cameras, and the GigE driver is rather buggy.
 This driver package provides an open-source C++ interface between MATLAB and Basler's Pylon interface.
 
+This driver was developed at the ICOM Institute for Communication Systems 
+at HSR University of Applied Sciences of Eastern Switzerland, Rapperswil. 
+
 ## Build
 
 The MATLAB Basler Camera Driver is built by calling the provided `make.m` file.
