@@ -29,8 +29,10 @@ This driver should support any Basler camera, but has only been tested on:
 * `baslerCameraInfo` returns a struct containing all parameters of the selected camera.
 * `baslerSetParameter` sets a camera parameter.
 * `baslerGetParameter` returns the selected camera parameter.
+* `baslerSetROI` sets the region of interest (ROI).
 * `baslerPreview` displays a preview image.
 * `baslerGetData` captures and returns the selected number of frames.
+* `baslerSaveData` captures and saves the selected number of frames to disk.
 
 ## License
 
