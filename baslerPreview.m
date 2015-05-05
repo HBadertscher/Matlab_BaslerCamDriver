@@ -19,7 +19,7 @@ set(fig,'Visible','on');
 while ishandle(fig)
     
     % Get video and preview
-    imagesc(baslerGetData(cameraIndex));
+    imagesc(baslerGetData(cameraIndex,1,'RGB8packed'));
     axis off;
     pause(0.1);
     
