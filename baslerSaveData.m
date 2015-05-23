@@ -15,14 +15,17 @@
 %    - RGB16planar
 %    - Mono8
 %    - Mono16
-%  
+%  Setting the optional parameter 'detach' to true detaches the image
+%  acquisition thread, which allows simultaneous calculation and image
+%  recording.
 %  The optional parameter verbose (default=0) enables the output of
 %  internal information to the workspace.
 %
 %  Usage:
 %    baslerSaveData(cameraIndex, savePath)
 %    baslerSaveData(cameraIndex, savePath, nFrames)
-%    baslerSaveData(cameraIndex, savePath, [], outputType)
-%    baslerSaveData(cameraIndex, savePath, [], [], verbose)
-%    baslerSaveData(cameraIndex, savePath, nFrames, outputType, verbose)
+%    baslerSaveData(cameraIndex, savePath, [],      outputType)
+%    baslerSaveData(cameraIndex, savePath, [],      [],         detach)
+%    baslerSaveData(cameraIndex, savePath, [],      [],         [],     verbose)
+%    baslerSaveData(cameraIndex, savePath, nFrames, outputType, detach, verbose)
 %

@@ -10,7 +10,7 @@
 
 #include <matrix.h>
 #include <mex.h>
-
+#include <thread>
     
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {       
@@ -22,7 +22,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         mexErrMsgIdAndTxt( "baslerDriver:Error:ArgumentError",
                 "Not enough arguments. Use help baslerGetParameter for further information."); 
     }
-    else if(nrhs > 5)
+    else if(nrhs > 6)
     {
         mexErrMsgIdAndTxt( "baslerDriver:Error:ArgumentError",
                 "Too many arguments. Use help baslerGetParameter for further information."); 
@@ -33,9 +33,9 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     
     // Get verbose parameter
     bool b_verbose = 0;
-    if(nrhs == 5)
+    if(nrhs == 6)
     {
-        b_verbose = (int)mxGetScalar(prhs[3]) != 0;
+        b_verbose = (int)mxGetScalar(prhs[5]) != 0;
     }
     
     // Get save path
@@ -83,52 +83,38 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
             }
         }
     }
-
     
-    // Initiatlize Pylon
-    Pylon::PylonAutoInitTerm auto_init_term;
+    // Get detach option
+    bool b_detach = 0;
+    if(nrhs >= 5)
+    {
+        b_detach = (int)mxGetScalar(prhs[4]) != 0;
+    }
     
     try
     {
-        // Get the transport layer factory.
-        Pylon::CTlFactory& tlFactory = Pylon::CTlFactory::GetInstance();
+        // Capture and save images in separate thread
+        std::thread processThread(  &BaslerHelper::save_images,
+                                    i_cam_number,
+                                    bfp_save_path,
+                                    i_num_of_frames,
+                                    ept_output_type,
+                                    b_verbose
+                                );
         
-        // Get all attached devices
-        Pylon::DeviceInfoList_t devices;
-        int i_num_of_cameras = tlFactory.EnumerateDevices(devices);
-        if ( i_num_of_cameras == 0 )
+        // Detach thread if required - otherwise wait for it
+        if(b_detach)
         {
-            throw RUNTIME_EXCEPTION( "No camera found.");
+            if(b_verbose)
+                mexPrintf("Detaching camera thread\n");
+            processThread.detach();
         }
-        
-        // Check if camera exists
-        if (i_cam_number > i_num_of_cameras-1 )
+        else
         {
-            throw RUNTIME_EXCEPTION("No camera with this index exists.");
+            if(b_verbose)
+                mexPrintf("Waiting for camera thread\n");
+            processThread.join();
         }
-        
-        // Create camera object
-        Pylon::CInstantCamera camera(tlFactory.CreateDevice(devices[i_cam_number]));
-        
-        // Open Camera
-        camera.Open();
-        if(b_verbose)
-        {
-            mexPrintf("Using camera \"%s\"\n", camera.GetDeviceInfo().GetModelName().c_str());
-        }
-           
-        // Find pixel type if needed
-        if(ept_output_type == Pylon::PixelType_Undefined)
-        {
-            std::string s_pixel_type = BaslerHelper::get_string(&camera,"PixelFormat",b_verbose);
-            ept_output_type = Pylon::CPixelTypeMapper().GetPylonPixelTypeByName(s_pixel_type.c_str());
-        }
-        
-        // Capture and save images                                
-        BaslerHelper::save_images(&camera, bfp_save_path, i_num_of_frames, ept_output_type, b_verbose);
-       
-        // Close camera
-        camera.Close();
         
     }
     catch (GenICam::GenericException &e)
