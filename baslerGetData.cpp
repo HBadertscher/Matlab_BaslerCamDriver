@@ -15,12 +15,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     if(nrhs < 1)
     {
         mexErrMsgIdAndTxt( "baslerDriver:Error:ArgumentError",
-                "Not enough arguments. Use help baslerGetParameter for further information."); 
+                "Not enough arguments. Use help baslerGetData for further information."); 
     }
     else if(nrhs > 4)
     {
         mexErrMsgIdAndTxt( "baslerDriver:Error:ArgumentError",
-                "Too many arguments. Use help baslerGetParameter for further information."); 
+                "Too many arguments. Use help baslerGetData for further information."); 
     }
     
     // Get camera number
