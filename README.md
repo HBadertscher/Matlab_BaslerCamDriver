@@ -17,6 +17,8 @@ The MATLAB Basler Camera Driver is built by calling the provided `make.m` file.
 
 ###Requirements:
 * [Boost C++ Libraries](http://www.boost.org/) (+ `BOOST_ROOT` set to the Boost root directory)
+* A compiler which supports C++11. Windows SDK 7.1 (which is recommended by Mathworks) does
+  *not* work. Rather use e.g. a recent version Visual Studio, GCC or else.
 * [Basler Pylon 4](http://www.baslerweb.com/de/produkte/software) 
 * And of course: a Basler Camera. 
 This driver should support any Basler camera, but has only been tested on:
