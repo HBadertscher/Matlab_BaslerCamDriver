@@ -81,9 +81,9 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         }
         else if(mxIsLogical(prhs[2]))                   // Boolean
         {
-            const bool b_param_value = (const bool)mxGetLogicals(prhs[2]);
+            const bool* b_param_value = (const bool*)mxGetLogicals(prhs[2]);
             BaslerHelper::set_parameter(&camera, 
-                    s_param_name.c_str(), &b_param_value , b_verbose);
+                    s_param_name.c_str(), b_param_value , b_verbose);
         }
         else if(mxIsChar(prhs[2]))                      // Strings
         {
