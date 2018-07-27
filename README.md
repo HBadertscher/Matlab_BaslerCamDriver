@@ -11,11 +11,19 @@ This driver package provides an open-source C++ interface between MATLAB and Bas
 This driver was developed at the ICOM Institute for Communication Systems 
 at HSR University of Applied Sciences of Eastern Switzerland, Rapperswil. 
 
+## Disclaimer
+
+Unfortunately, this project is not being actively developed and maintained anymore.
+Due to that, it is still required to use Pylon 4 and not the most recent Pylon 5.
+If you are interested in updating this driver to Pylon 5 please feel free to contact me.
+Further, the camera support in MATLAB has improved significantly since this project was first published - 
+I suggest giving the MATLAB Image Acquisition Toolbox a try first.
+
 ## Build
 
 The MATLAB Basler Camera Driver is built by calling the provided `make.m` file.
 
-###Requirements:
+### Requirements:
 * [Boost C++ Libraries](http://www.boost.org/) (+ `BOOST_ROOT` set to the Boost root directory)
 * [Basler Pylon 4](http://www.baslerweb.com/de/produkte/software) 
 * And of course: a Basler Camera. 
